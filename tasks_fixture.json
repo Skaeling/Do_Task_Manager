@@ -1,0 +1,119 @@
+[
+  {
+    "model": "tasks.employee",
+    "pk": 1,
+    "fields": {
+      "fullname": "Юзеров Юзер Юзерович",
+      "role": "director",
+      "user": 2,
+      "is_supervisor": true,
+      "department": "finance"
+    }
+  },
+  {
+    "model": "tasks.employee",
+    "pk": 3,
+    "fields": {
+      "fullname": "Админов Админ Админович",
+      "role": "admin",
+      "user": 1,
+      "is_supervisor": false,
+      "department": "finance"
+    }
+  },
+  {
+    "model": "tasks.employee",
+    "pk": 4,
+    "fields": {
+      "fullname": "Тестов Тест Тестович",
+      "role": "test",
+      "user": 1,
+      "is_supervisor": false,
+      "department": "finance"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+      "title": "Заполнить отчетность",
+      "description": null,
+      "parental_task": null,
+      "executor": null,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "created",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 2,
+    "fields": {
+      "title": "Отправить письма",
+      "description": null,
+      "parental_task": null,
+      "executor": null,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "created",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 3,
+    "fields": {
+      "title": "Организовать встречу",
+      "description": null,
+      "parental_task": null,
+      "executor": null,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "created",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 4,
+    "fields": {
+      "title": "Обсудить годовые премии",
+      "description": null,
+      "parental_task": null,
+      "executor": 1,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 5,
+    "fields": {
+      "title": "Заказать канц. товары для отдела",
+      "description": null,
+      "parental_task": null,
+      "executor": 3,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 6,
+    "fields": {
+      "title": "Корпоративная встреча",
+      "description": null,
+      "parental_task": null,
+      "executor": 4,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  }
+]
