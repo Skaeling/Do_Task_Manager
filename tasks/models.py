@@ -4,13 +4,14 @@ from config.settings import AUTH_USER_MODEL
 
 class Employee(models.Model):
     fullname = models.CharField(max_length=50, verbose_name='ФИО')
-    position = models.CharField(max_length=50, null=True, blank=True, verbose_name='Должность')
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employees',
+    role = models.CharField(max_length=50, null=True, blank=True, verbose_name='Должность')
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='positions',
                              verbose_name="Пользователь")
     is_supervisor = models.BooleanField(default=False, verbose_name='Супервизор')
+    department = models.CharField(max_length=50, null=True, blank=True, verbose_name='Отдел')
 
     def __str__(self):
-        return f'{self.fullname} - {self.position}'
+        return f'{self.fullname} - {self.role}'
 
     class Meta:
         verbose_name = 'Сотрудник'
@@ -38,8 +39,8 @@ class Task(models.Model):
 
     title = models.CharField(max_length=50, verbose_name="Название")
     description = models.TextField(max_length=200, null=True, blank=True, verbose_name='Описание')
-    parental_task = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks',
-                                      verbose_name='Родительская задача')
+    parental_task = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
+                                      related_name='daughter_tasks', verbose_name='Родительская задача')
     executor = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks',
                                  verbose_name="Исполнитель")
     deadline = models.DateTimeField(verbose_name='Срок исполнения')

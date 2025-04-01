@@ -11,8 +11,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserRetrieveSerializer(serializers.ModelSerializer):
-    employees = EmployeeSerializer(many=True, read_only=True)
+    positions = EmployeeSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name', 'employees']
+        fields = ['email', 'first_name', 'last_name', 'positions']
