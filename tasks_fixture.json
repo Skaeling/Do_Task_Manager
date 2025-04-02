@@ -38,7 +38,7 @@
     "fields": {
       "title": "Заполнить отчетность",
       "description": null,
-      "parental_task": null,
+      "parental_task": 6,
       "executor": null,
       "deadline": "2025-04-02T21:00:00Z",
       "status": "created",
@@ -66,7 +66,7 @@
     "fields": {
       "title": "Организовать встречу",
       "description": null,
-      "parental_task": null,
+      "parental_task": 4,
       "executor": null,
       "deadline": "2025-04-02T21:00:00Z",
       "status": "created",
@@ -110,6 +110,48 @@
       "description": null,
       "parental_task": null,
       "executor": 4,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 7,
+    "fields": {
+      "title": "test1",
+      "description": null,
+      "parental_task": null,
+      "executor": 1,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 8,
+    "fields": {
+      "title": "test2",
+      "description": null,
+      "parental_task": null,
+      "executor": 1,
+      "deadline": "2025-04-02T21:00:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 9,
+    "fields": {
+      "title": "test3",
+      "description": null,
+      "parental_task": null,
+      "executor": 1,
       "deadline": "2025-04-02T21:00:00Z",
       "status": "started",
       "attachment": "",

@@ -1,12 +1,14 @@
 from rest_framework import serializers
 
 from tasks.models import Employee, Task
+from tasks.services import get_least_busy_employee
 
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = "__all__"
+        fields = ["id", "title", "description", "deadline", "status", "executor", "parental_task", "attachment",
+                  "comment"]
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -40,3 +42,18 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = ["id", "fullname", "department", "role", "user", "crew"]
+
+
+class UrgentTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ["title", "deadline"]
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        executor = get_least_busy_employee(instance.parental_task.pk)
+        if executor:
+            representation['candidate'] = [executor.fullname]
+        else:
+            representation['candidate'] = "Нет свободных сотрудников"
+        return representation
