@@ -2,15 +2,24 @@ from rest_framework import serializers
 
 from tasks.models import Employee, Task
 from tasks.services import get_least_busy_employee
+from tasks.validators import validate_deadline, WordsValidator, validate_executor_tasks
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    """Для просмотра списка всех задач"""
+
     class Meta:
         model = Task
         fields = ["id", "title", "deadline", "status", "executor", "parental_task"]
 
 
 class TaskDetailSerializer(serializers.ModelSerializer):
+    """Для создания и обновления задачи"""
+    deadline = serializers.DateTimeField(validators=[validate_deadline])
+    executor = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all(),
+                                                  validators=[validate_executor_tasks], required=False)
+    validators = [WordsValidator('title', 'description', 'comment')]
+
     class Meta:
         model = Task
         fields = ["id", "title", "description", "deadline", "status", "executor", "parental_task", "attachment",

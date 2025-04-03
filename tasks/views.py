@@ -40,6 +40,12 @@ class TaskCreateAPIView(generics.CreateAPIView):
     serializer_class = TaskDetailSerializer
     permission_classes = (IsAuthenticated, IsSupervisor)
 
+    def perform_create(self, serializer):
+        task = serializer.save()
+        if task.executor is not None:
+            task.status = "started"
+            task.save()
+
 
 class TaskListAPIView(generics.ListAPIView):
     """Представляет список всех задач"""
