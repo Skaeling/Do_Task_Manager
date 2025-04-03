@@ -3,7 +3,7 @@ from rest_framework.routers import SimpleRouter
 
 from tasks.apps import TasksConfig
 from tasks.views import EmployeeViewSet, TaskCreateAPIView, EmployeeBusyListView, TaskUrgentListAPIView, \
-    TaskListAPIView, TaskUpdateAPIView
+    TaskListAPIView, TaskUpdateAPIView, TaskRetrieveAPIView, TaskDestroyAPIView
 
 app_name = TasksConfig.name
 
@@ -13,6 +13,8 @@ router.register('employees', EmployeeViewSet)
 urlpatterns = [path('create/', TaskCreateAPIView.as_view(), name='task-create'),
                path('', TaskListAPIView.as_view(), name='tasks-list'),
                path('update/<int:pk>/', TaskUpdateAPIView.as_view(), name='task-update'),
+               path('delete/<int:pk>/', TaskDestroyAPIView.as_view(), name='task-delete'),
+               path('<int:pk>/', TaskRetrieveAPIView.as_view(), name='task-detail'),
 
                path('urgent/', TaskUrgentListAPIView.as_view(), name='tasks-urgent'),
 

@@ -7,6 +7,12 @@ from tasks.services import get_least_busy_employee
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
+        fields = ["id", "title", "deadline", "status", "executor", "parental_task"]
+
+
+class TaskDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
         fields = ["id", "title", "description", "deadline", "status", "executor", "parental_task", "attachment",
                   "comment"]
 

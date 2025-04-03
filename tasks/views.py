@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from tasks.models import Employee, Task
 from tasks.serializers import EmployeeSerializer, EmployeeDetailSerializer, TaskSerializer, EmployeeBusySerializer, \
-    UrgentTaskSerializer
+    UrgentTaskSerializer, TaskDetailSerializer
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
@@ -20,23 +20,34 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 
 class EmployeeBusyListView(generics.ListAPIView):
+    """Представляет список занятых сотрудников"""
     queryset = Employee.objects.all()
     serializer_class = EmployeeBusySerializer
 
 
 class TaskCreateAPIView(generics.CreateAPIView):
+    """Создает новую задачу"""
     queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+    serializer_class = TaskDetailSerializer
 
 
 class TaskListAPIView(generics.ListAPIView):
+    """Представляет список всех задач"""
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+
+
+class TaskRetrieveAPIView(generics.RetrieveAPIView):
+    """Отображает детальную информацию о задаче, если она принадлежит текущему юзеру"""
+    queryset = Task.objects.all()
+    serializer_class = TaskDetailSerializer
+    permission_classes = (IsAuthenticated, )
 
 
 class TaskUpdateAPIView(generics.UpdateAPIView):
+    """"Обновляет задачу"""
     queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+    serializer_class = TaskDetailSerializer
 
     def perform_update(self, serializer):
         """При добавлении в задачу исполнителя меняет статус задачи с created на started"""
@@ -46,7 +57,15 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
         task.save()
 
 
+class TaskDestroyAPIView(generics.DestroyAPIView):
+    """Удаляет задачу по указанному pk"""
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = (IsAuthenticated,)
+
+
 class TaskUrgentListAPIView(generics.ListAPIView):
+    """Представляет список важных задач"""
     serializer_class = UrgentTaskSerializer
 
     def get_queryset(self):

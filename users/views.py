@@ -23,3 +23,17 @@ class UserRetrieveAPIView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserRetrieveSerializer
     permission_classes = (IsAuthenticated, IsUser)
+
+
+class UserUpdateAPIView(generics.UpdateAPIView):
+    """Обновляет профиль текущего пользователя по переданному pk"""
+    serializer_class = UserCreateSerializer
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated, IsUser,)
+
+
+class UserDeleteAPIView(generics.DestroyAPIView):
+    """Удаляет профиль текущего пользователя по переданному pk"""
+    serializer_class = UserCreateSerializer
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated, IsUser,)
