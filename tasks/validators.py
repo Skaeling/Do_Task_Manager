@@ -18,6 +18,11 @@ def validate_executor_tasks(value):
         raise ValidationError('Превышено количество активных задач у сотрудника, выберете другого')
 
 
+def validate_attachment_size(value):
+    if value.size > 5 * 1024 * 1024:
+        raise ValidationError("Файл превышает допустимый размер ( > 5mb )")
+
+
 class WordsValidator:
     forbidden_phrases = ['срочно', 'asap', '!!!']
 

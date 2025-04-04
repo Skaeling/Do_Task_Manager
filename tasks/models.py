@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from config.settings import AUTH_USER_MODEL
 
@@ -50,6 +52,12 @@ class Task(models.Model):
 
     def __str__(self):
         return f'Задача: {self.title} к {self.deadline}. Статус: {self.status}'
+
+    def delete(self, *args, **kwargs):
+        if self.attachment:
+            if os.path.isfile(self.attachment.path):
+                os.remove(self.attachment.path)
+        super().delete(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Задача'

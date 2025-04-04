@@ -1,4 +1,5 @@
 from rest_framework import viewsets, generics
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 
 from tasks.models import Employee, Task
@@ -10,6 +11,7 @@ from users.permissions import IsSupervisor, IsExecutor, IsOwner
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     permission_classes = (IsAuthenticated,)
+    parser_classes = (MultiPartParser,)
 
     def get_serializer_class(self):
         if self.action == 'retrieve':

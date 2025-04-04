@@ -1,8 +1,8 @@
 from rest_framework import serializers
-
+from django.core.validators import FileExtensionValidator
 from tasks.models import Employee, Task
 from tasks.services import get_least_busy_employee
-from tasks.validators import validate_deadline, WordsValidator, validate_executor_tasks
+from tasks.validators import validate_deadline, WordsValidator, validate_executor_tasks, validate_attachment_size
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -18,6 +18,12 @@ class TaskDetailSerializer(serializers.ModelSerializer):
     deadline = serializers.DateTimeField(validators=[validate_deadline])
     executor = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all(),
                                                   validators=[validate_executor_tasks], required=False)
+    attachment = serializers.FileField(validators=[
+        validate_attachment_size,
+        FileExtensionValidator(allowed_extensions=['png', 'jpg', 'doc'],
+                               message="Расширение файла “%(extension)s” недопустимо. "
+                                       "Выберите файл типа: %(allowed_extensions)s.")])
+
     validators = [WordsValidator('title', 'description', 'comment')]
 
     class Meta:
