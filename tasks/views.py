@@ -22,7 +22,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+        if self.action in ['update', 'partial_update', 'destroy']:
             self.permission_classes = (IsSupervisor,)
         elif self.action == 'retrieve':
             self.permission_classes = (IsSupervisor | IsOwner,)

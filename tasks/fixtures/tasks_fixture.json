@@ -50,7 +50,7 @@
     "model": "tasks.task",
     "pk": 2,
     "fields": {
-      "title": "Отправить письма",
+      "title": "Отправить письма в налоговую",
       "description": null,
       "parental_task": null,
       "executor": null,
@@ -132,13 +132,13 @@
   },
   {
     "model": "tasks.task",
-    "pk": 8,
+    "pk": 18,
     "fields": {
-      "title": "test2",
+      "title": "test_validate_tasks",
       "description": null,
       "parental_task": null,
       "executor": 1,
-      "deadline": "2025-04-02T21:00:00Z",
+      "deadline": "2025-04-04T21:00:00Z",
       "status": "started",
       "attachment": "",
       "comment": null
@@ -146,13 +146,27 @@
   },
   {
     "model": "tasks.task",
-    "pk": 9,
+    "pk": 19,
     "fields": {
-      "title": "test3",
+      "title": "test_validate_tasks",
       "description": null,
       "parental_task": null,
-      "executor": 1,
-      "deadline": "2025-04-02T21:00:00Z",
+      "executor": null,
+      "deadline": "2025-04-04T21:00:00Z",
+      "status": "created",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 20,
+    "fields": {
+      "title": "test_validate_tasks",
+      "description": null,
+      "parental_task": null,
+      "executor": 3,
+      "deadline": "2025-04-04T21:00:00Z",
       "status": "started",
       "attachment": "",
       "comment": null

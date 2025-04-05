@@ -22,7 +22,7 @@ class TaskDetailSerializer(serializers.ModelSerializer):
         validate_attachment_size,
         FileExtensionValidator(allowed_extensions=['png', 'jpg', 'doc'],
                                message="Расширение файла “%(extension)s” недопустимо. "
-                                       "Выберите файл типа: %(allowed_extensions)s.")])
+                                       "Выберите файл типа: %(allowed_extensions)s.")], required=False)
 
     validators = [WordsValidator('title', 'description', 'comment')]
 
@@ -32,6 +32,22 @@ class TaskDetailSerializer(serializers.ModelSerializer):
                   "comment"]
 
 
+class UrgentTaskSerializer(serializers.ModelSerializer):
+    """Для просмотра важных задач и свободных кандидатов"""
+    class Meta:
+        model = Task
+        fields = ["title", "deadline"]
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        executor = get_least_busy_employee(instance.parental_task.pk)
+        if executor:
+            representation['candidate'] = [executor.fullname]
+        else:
+            representation['candidate'] = "Нет свободных сотрудников"
+        return representation
+
+
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
@@ -39,6 +55,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 class EmployeeBusySerializer(serializers.ModelSerializer):
+    """Для просмотра списка сотрудников по количеству активных задач"""
+
     tasks = TaskSerializer(many=True, read_only=True)
     active_tasks = serializers.SerializerMethodField()
 
@@ -58,23 +76,11 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
         if obj.is_supervisor:
             crew_members = Employee.objects.filter(department=obj.department).exclude(user=user.id)
             return EmployeeSerializer(crew_members, many=True).data
-        return []
+        return None
 
     class Meta:
         model = Employee
         fields = ["id", "fullname", "department", "role", "user", "crew"]
 
 
-class UrgentTaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = ["title", "deadline"]
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        executor = get_least_busy_employee(instance.parental_task.pk)
-        if executor:
-            representation['candidate'] = [executor.fullname]
-        else:
-            representation['candidate'] = "Нет свободных сотрудников"
-        return representation
