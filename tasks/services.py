@@ -16,12 +16,14 @@ def get_least_busy_employee(parental_task_id):
     least_busy_employee = cache.get(least_busy_cache_key)
 
     if least_busy_employee is None:
-        employees = Employee.objects.annotate(task_count=Count('tasks', filter=Q(tasks__status='started')))
+        employees = Employee.objects.filter(is_supervisor=False).annotate(
+            task_count=Count('tasks', filter=Q(tasks__status='started'))
+        )
         least_busy_employee = employees.order_by('task_count').first()
         cache.set(least_busy_cache_key, least_busy_employee, timeout=900)
 
     parental_executor = cache.get(parental_executor_cache_key)
-    if parental_executor == least_busy_employee:  # доработать!
+    if parental_executor == least_busy_employee:
         return parental_executor
 
     else:
@@ -34,7 +36,6 @@ def get_least_busy_employee(parental_task_id):
             cache.set(parental_tasks_cache_key, parental_executor_tasks_count, timeout=900)
 
         min_task_count = least_busy_employee.tasks.count()
-
         if parental_executor_tasks_count <= min_task_count + 2:
             return parental_executor
         return least_busy_employee

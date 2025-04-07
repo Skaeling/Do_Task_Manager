@@ -3,7 +3,7 @@
     "model": "tasks.employee",
     "pk": 1,
     "fields": {
-      "fullname": "Юзеров Юзер Юзерович",
+      "fullname": "Директоров Дмитрий Денисович",
       "role": "director",
       "user": 2,
       "is_supervisor": true,
@@ -12,9 +12,9 @@
   },
   {
     "model": "tasks.employee",
-    "pk": 3,
+    "pk": 2,
     "fields": {
-      "fullname": "Админов Админ Админович",
+      "fullname": "Админов Артемий Алексеевич",
       "role": "admin",
       "user": 1,
       "is_supervisor": false,
@@ -23,10 +23,10 @@
   },
   {
     "model": "tasks.employee",
-    "pk": 4,
+    "pk": 3,
     "fields": {
-      "fullname": "Тестов Тест Тестович",
-      "role": "test",
+      "fullname": "Менеджеров Максим Михайлович",
+      "role": "manager",
       "user": 1,
       "is_supervisor": false,
       "department": "finance"
@@ -36,11 +36,11 @@
     "model": "tasks.task",
     "pk": 1,
     "fields": {
-      "title": "Заполнить отчетность",
+      "title": "Сдать отчет за I квартал",
       "description": null,
       "parental_task": 6,
       "executor": null,
-      "deadline": "2025-04-02T21:00:00Z",
+      "deadline": "2025-04-05T10:00:00Z",
       "status": "created",
       "attachment": "",
       "comment": null
@@ -50,12 +50,12 @@
     "model": "tasks.task",
     "pk": 2,
     "fields": {
-      "title": "Отправить письма в налоговую",
+      "title": "Отправить финальную презентацию",
       "description": null,
       "parental_task": null,
-      "executor": null,
-      "deadline": "2025-04-02T21:00:00Z",
-      "status": "created",
+      "executor": 3,
+      "deadline": "2025-04-04T12:30:00Z",
+      "status": "started",
       "attachment": "",
       "comment": null
     }
@@ -64,11 +64,11 @@
     "model": "tasks.task",
     "pk": 3,
     "fields": {
-      "title": "Организовать встречу",
+      "title": "Организовать встречу с клиентом",
       "description": null,
-      "parental_task": 4,
+      "parental_task": 2,
       "executor": null,
-      "deadline": "2025-04-02T21:00:00Z",
+      "deadline": "2025-04-07T10:00:00Z",
       "status": "created",
       "attachment": "",
       "comment": null
@@ -78,11 +78,11 @@
     "model": "tasks.task",
     "pk": 4,
     "fields": {
-      "title": "Обсудить годовые премии",
+      "title": "Организовать корпоратив",
       "description": null,
       "parental_task": null,
-      "executor": 1,
-      "deadline": "2025-04-02T21:00:00Z",
+      "executor": 3,
+      "deadline": "2025-04-02T13:00:00Z",
       "status": "started",
       "attachment": "",
       "comment": null
@@ -95,8 +95,8 @@
       "title": "Заказать канц. товары для отдела",
       "description": null,
       "parental_task": null,
-      "executor": 3,
-      "deadline": "2025-04-02T21:00:00Z",
+      "executor": 2,
+      "deadline": "2025-04-02T15:30:00Z",
       "status": "started",
       "attachment": "",
       "comment": null
@@ -106,67 +106,11 @@
     "model": "tasks.task",
     "pk": 6,
     "fields": {
-      "title": "Корпоративная встреча",
+      "title": "Подготовить статистику",
       "description": null,
       "parental_task": null,
-      "executor": 4,
-      "deadline": "2025-04-02T21:00:00Z",
-      "status": "started",
-      "attachment": "",
-      "comment": null
-    }
-  },
-  {
-    "model": "tasks.task",
-    "pk": 7,
-    "fields": {
-      "title": "test1",
-      "description": null,
-      "parental_task": null,
-      "executor": 1,
-      "deadline": "2025-04-02T21:00:00Z",
-      "status": "started",
-      "attachment": "",
-      "comment": null
-    }
-  },
-  {
-    "model": "tasks.task",
-    "pk": 18,
-    "fields": {
-      "title": "test_validate_tasks",
-      "description": null,
-      "parental_task": null,
-      "executor": 1,
-      "deadline": "2025-04-04T21:00:00Z",
-      "status": "started",
-      "attachment": "",
-      "comment": null
-    }
-  },
-  {
-    "model": "tasks.task",
-    "pk": 19,
-    "fields": {
-      "title": "test_validate_tasks",
-      "description": null,
-      "parental_task": null,
-      "executor": null,
-      "deadline": "2025-04-04T21:00:00Z",
-      "status": "created",
-      "attachment": "",
-      "comment": null
-    }
-  },
-  {
-    "model": "tasks.task",
-    "pk": 20,
-    "fields": {
-      "title": "test_validate_tasks",
-      "description": null,
-      "parental_task": null,
-      "executor": 3,
-      "deadline": "2025-04-04T21:00:00Z",
+      "executor": 2,
+      "deadline": "2025-04-02T10:00:00Z",
       "status": "started",
       "attachment": "",
       "comment": null

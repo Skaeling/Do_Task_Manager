@@ -1,0 +1,38 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$M2yBMkujd5MQrBiBHTRmbd$tspz1tbQzCskhEWosvckeCsj0Yk6agiucD8X/1cO+HI=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-03-31T09:32:28.478Z",
+      "email": "admin@email.ru",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$P72v1RJ6SlGOoundFnAYGZ$9edMW3+gxzZbxC9u7CwLjMUPxIzUW/ksS1XQ8k3uNug=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user",
+      "first_name": "Директоров",
+      "last_name": "Дмитрий",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-03-31T09:50:29.591Z",
+      "email": "user@email.ru",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

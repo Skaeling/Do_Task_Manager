@@ -34,6 +34,7 @@ class TaskDetailSerializer(serializers.ModelSerializer):
 
 class UrgentTaskSerializer(serializers.ModelSerializer):
     """Для просмотра важных задач и свободных кандидатов"""
+
     class Meta:
         model = Task
         fields = ["title", "deadline"]
@@ -58,14 +59,11 @@ class EmployeeBusySerializer(serializers.ModelSerializer):
     """Для просмотра списка сотрудников по количеству активных задач"""
 
     tasks = TaskSerializer(many=True, read_only=True)
-    active_tasks = serializers.SerializerMethodField()
-
-    def get_active_tasks(self, obj):
-        return obj.tasks.filter(status='started').count()
+    active_tasks = serializers.IntegerField(source='active_tasks_count', read_only=True)
 
     class Meta:
         model = Employee
-        fields = ["id", "fullname", "department", "role", "user", "active_tasks", "tasks"]
+        fields = ["id", "fullname", "department", "role", "active_tasks", "tasks"]
 
 
 class EmployeeDetailSerializer(serializers.ModelSerializer):
@@ -81,6 +79,3 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = ["id", "fullname", "department", "role", "user", "crew"]
-
-
-
