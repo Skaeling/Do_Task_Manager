@@ -44,7 +44,7 @@ class TaskCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         task = serializer.save()
-        if task.executor is not None:
+        if task.executor:
             task.status = "started"
             task.save()
 

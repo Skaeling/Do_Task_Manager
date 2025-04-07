@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.core.cache import cache
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -92,6 +93,7 @@ class EmployeeTest(APITestCase):
 class TaskTest(APITestCase):
 
     def setUp(self):
+        # cache.clear()
         self.user = User.objects.create(email="test_user@email.com", username="test_user")
         self.client.force_authenticate(user=self.user)
         self.employee = Employee.objects.create(fullname="Супервайзеров Аркадий Витальевич",
@@ -109,9 +111,9 @@ class TaskTest(APITestCase):
                                                parental_task=self.first_task
                                                )
 
-    def test_rask_create(self):
+    def test_task_create(self):
         url = reverse("tasks:task-create")
-        data = {"title": "Отправить документы в Сибирь", "deadline": self.date}
+        data = {"title": "Отправить документы в Сибирь", "deadline": self.date, "executor": self.employee.pk}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Task.objects.all().count(), 3)
@@ -120,16 +122,6 @@ class TaskTest(APITestCase):
         url = reverse("tasks:task-detail", args=(self.first_task.pk,))
         response = self.client.get(url)
         result = response.json()
-        # data = {'attachment': None,
-        #         'comment': None,
-        #         'deadline': self.task.deadline.strftime('%Y-%m-%d %H:%M:%S %Z'),
-        #         'description': None,
-        #         'executor': 1,
-        #         'id': 1,
-        #         'parental_task': None,
-        #         'status': 'created',
-        #         'title': 'Забрать подарки для продавцов'}
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(result.get('title'), self.first_task.title)
 
@@ -139,7 +131,12 @@ class TaskTest(APITestCase):
         self.assertEqual(result.get('count'), 2)
 
     def test_task_update(self):
-        url = reverse("tasks:task-update", args=(self.first_task.pk,))
+        test_task = Task.objects.create(title="Тестовая задача",
+                                        deadline=self.date,
+                                        executor=self.employee,
+                                        )
+        url = reverse("tasks:task-update", args=(test_task.pk,))
+
         data = {"executor": self.employee.pk}
         response = self.client.patch(url, data)
         result = response.json()
@@ -152,9 +149,8 @@ class TaskTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Task.objects.all().count(), 1)
 
-    # def test_task_urgent_list(self):
-    #     response = self.client.get('/tasks/urgent/')
-    #     result = response.json()
-    #     print(self.first_task.status)
-    #     print(self.second_task.status)
-    #     self.assertEqual(result.get('title'), self.second_task.title)
+    def test_task_urgent_list(self):
+        cache.clear()
+        response = self.client.get('/tasks/urgent/')
+        result = response.json()
+        self.assertEqual(result.get('count'), 1)

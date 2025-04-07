@@ -5,7 +5,9 @@ from .models import Employee, Task
 
 def get_least_busy_employee(parental_task_id):
     """Возвращает из БД первого найденного сотрудника с наименьшим количеством задач или сотрудника,
-    выполняющий родительскую задачу, если ему назначено максимум на 2 задачи больше, чем первого)."""
+    выполняющего parental_task, если ему назначено максимум на 2 задачи больше, чем у первого.
+    Если один из найденных сотрудников с наименьшим количеством задач является исполнителем parental_task,
+    он будет выбран приоритетным исполнителем."""
 
     least_busy_cache_key = 'least_busy_employee'
     parental_tasks_cache_key = f'parental_executor_tasks_count_{parental_task_id}'
