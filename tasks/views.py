@@ -1,6 +1,7 @@
+from django.db.models import Count, Q
+from django.utils.decorators import method_decorator
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, generics
-from rest_framework.parsers import MultiPartParser
-from rest_framework.permissions import IsAuthenticated
 
 from tasks.models import Employee, Task
 from tasks.serializers import EmployeeSerializer, EmployeeDetailSerializer, TaskSerializer, EmployeeBusySerializer, \
@@ -8,10 +9,13 @@ from tasks.serializers import EmployeeSerializer, EmployeeDetailSerializer, Task
 from users.permissions import IsSupervisor, IsExecutor, IsOwner
 
 
+@method_decorator(name='retrieve',
+                  decorator=swagger_auto_schema(
+                      operation_description="Возвращает информацию о сотруднике, "
+                                            "включая данные о подчиненных при их наличии"),
+                  )
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
-    permission_classes = (IsAuthenticated,)
-    parser_classes = (MultiPartParser,)
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -30,17 +34,20 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 
 class EmployeeBusyListView(generics.ListAPIView):
-    """Представляет список занятых сотрудников"""
-    queryset = Employee.objects.all()
+    """Представляет список занятых сотрудников по убыванию количества задач"""
+    queryset = Employee.objects.filter(is_supervisor=False).annotate(
+        active_tasks_count=Count('tasks', filter=Q(tasks__status='started'))
+    ).order_by('-active_tasks_count')
+
     serializer_class = EmployeeBusySerializer
-    permission_classes = (IsAuthenticated, IsSupervisor)
+    permission_classes = (IsSupervisor,)
 
 
 class TaskCreateAPIView(generics.CreateAPIView):
     """Создает новую задачу"""
     queryset = Task.objects.all()
     serializer_class = TaskDetailSerializer
-    permission_classes = (IsAuthenticated, IsSupervisor)
+    permission_classes = (IsSupervisor,)
 
     def perform_create(self, serializer):
         task = serializer.save()
@@ -60,11 +67,11 @@ class TaskRetrieveAPIView(generics.RetrieveAPIView):
     если она принадлежит текущему юзеру или он является супервайзером"""
     queryset = Task.objects.all()
     serializer_class = TaskDetailSerializer
-    permission_classes = (IsAuthenticated, IsSupervisor | IsExecutor)
+    permission_classes = (IsSupervisor | IsExecutor,)
 
 
 class TaskUpdateAPIView(generics.UpdateAPIView):
-    """"Обновляет задачу"""
+    """Обновляет задачу"""
     queryset = Task.objects.all()
     serializer_class = TaskDetailSerializer
 
@@ -80,11 +87,11 @@ class TaskDestroyAPIView(generics.DestroyAPIView):
     """Удаляет задачу по указанному pk"""
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = (IsAuthenticated, IsSupervisor)
+    permission_classes = (IsSupervisor,)
 
 
 class TaskUrgentListAPIView(generics.ListAPIView):
-    """Представляет список важных задач"""
+    """Представляет список важных задач и кандидата доступного для выбора на исполнение"""
     serializer_class = UrgentTaskSerializer
 
     def get_queryset(self):
