@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from users.models import User
-from users.permissions import IsUser, IsSupervisor
+from users.permissions import IsSupervisor, IsUser
 from users.serializers import UserCreateSerializer, UserRetrieveSerializer
 
 

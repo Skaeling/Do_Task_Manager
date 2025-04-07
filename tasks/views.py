@@ -1,12 +1,14 @@
 from django.db.models import Count, Q
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import viewsets, generics
+from rest_framework import generics, viewsets
 
 from tasks.models import Employee, Task
-from tasks.serializers import EmployeeSerializer, EmployeeDetailSerializer, TaskSerializer, EmployeeBusySerializer, \
-    UrgentTaskSerializer, TaskDetailSerializer
-from users.permissions import IsSupervisor, IsExecutor, IsOwner
+from tasks.serializers import (EmployeeBusySerializer,
+                               EmployeeDetailSerializer, EmployeeSerializer,
+                               TaskDetailSerializer, TaskSerializer,
+                               UrgentTaskSerializer)
+from users.permissions import IsExecutor, IsOwner, IsSupervisor
 
 
 @method_decorator(name='retrieve',
@@ -21,9 +23,6 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             return EmployeeDetailSerializer
         return EmployeeSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy']:

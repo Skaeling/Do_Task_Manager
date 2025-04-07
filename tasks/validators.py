@@ -1,7 +1,9 @@
 from datetime import timedelta
-from .models import Task
-from rest_framework.serializers import ValidationError
+
 from django.utils import timezone
+from rest_framework.serializers import ValidationError
+
+from .models import Task
 
 
 def validate_deadline(value):

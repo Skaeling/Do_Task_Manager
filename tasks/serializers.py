@@ -1,8 +1,10 @@
-from rest_framework import serializers
 from django.core.validators import FileExtensionValidator
+from rest_framework import serializers
+
 from tasks.models import Employee, Task
 from tasks.services import get_least_busy_employee
-from tasks.validators import validate_deadline, WordsValidator, validate_executor_tasks, validate_attachment_size
+from tasks.validators import (WordsValidator, validate_attachment_size,
+                              validate_deadline, validate_executor_tasks)
 
 
 class TaskSerializer(serializers.ModelSerializer):

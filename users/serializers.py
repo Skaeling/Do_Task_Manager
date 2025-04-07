@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from users.models import User
 from tasks.serializers import EmployeeSerializer
+from users.models import User
 
 
 class UserCreateSerializer(serializers.ModelSerializer):

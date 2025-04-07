@@ -2,11 +2,12 @@ from datetime import timedelta
 
 from django.core.cache import cache
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
-from tasks.models import Task, Employee
+
+from tasks.models import Employee, Task
 from users.models import User
-from django.utils import timezone
 
 
 class EmployeeTest(APITestCase):
