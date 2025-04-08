@@ -11,25 +11,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_healthy
-
-  redis:
-    container_name: redis
-    image: redis:latest
-    volumes:
-      - redis_data:/data
-    ports:
-      - "6379:6379"
-    environment:
-      - REDIS_HOST=redis
-    healthcheck:
-      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-    depends_on:
-      - db
 
   db:
     container_name: db
@@ -50,4 +31,3 @@ networks:
 volumes:
   postgres_data:
   static_volume:
-  redis_data:

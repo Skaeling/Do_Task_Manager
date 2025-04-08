@@ -13,6 +13,8 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 import os
+
+from django.core.cache import cache
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -175,7 +177,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-CACHE_ENABLED = True
+CACHE_ENABLED = False
 if CACHE_ENABLED:
     CACHES = {
         'default': {
@@ -183,3 +185,5 @@ if CACHE_ENABLED:
             'LOCATION': os.getenv('LOCATION'),
         }
     }
+else:
+    cache.clear()

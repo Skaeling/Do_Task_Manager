@@ -52,6 +52,8 @@ class UrgentTaskSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    """Для всех действий с сотрудником, кроме просмотра детальных данных"""
+
     class Meta:
         model = Employee
         fields = "__all__"
@@ -69,6 +71,8 @@ class EmployeeBusySerializer(serializers.ModelSerializer):
 
 
 class EmployeeDetailSerializer(serializers.ModelSerializer):
+    """Для просмотра детальной информации о сотруднике,
+    если пользователь супервизор, ему дополнительно видны его подчиненные"""
     crew = serializers.SerializerMethodField()
 
     def get_crew(self, obj):
