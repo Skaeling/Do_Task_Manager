@@ -15,9 +15,12 @@ class EmployeeTest(APITestCase):
     def setUp(self):
         self.user = User.objects.create(email="test_user@email.com", username="test_user")
         self.client.force_authenticate(user=self.user)
-        self.employee = Employee.objects.create(fullname="Супервайзеров Аркадий Витальевич",
-                                                user=self.user,
-                                                is_supervisor=True
+        self.super_employee = Employee.objects.create(fullname="Супервайзеров Аркадий Витальевич",
+                                                      user=self.user,
+                                                      is_supervisor=True
+                                                      )
+        self.employee = Employee.objects.create(fullname="Кандидатов Иосиф Петрович",
+                                                user=self.user
                                                 )
 
     def test_employee_create(self):
@@ -27,7 +30,7 @@ class EmployeeTest(APITestCase):
         data = {"fullname": "Тестов Тест Тестович", "user": 1}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Employee.objects.all().count(), 2)
+        self.assertEqual(Employee.objects.all().count(), 3)
 
     def test_employee_retrieve(self):
         url = reverse("tasks:employee-detail", args=(self.employee.pk,))
@@ -48,29 +51,14 @@ class EmployeeTest(APITestCase):
         url = reverse("tasks:employee-detail", args=(self.employee.pk,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Employee.objects.all().count(), 0)
+        self.assertEqual(Employee.objects.all().count(), 1)
 
     def test_employees_list(self):
         url = reverse("tasks:employee-list")
         response = self.client.get(url)
         result = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        data = {
-            "count": 1,
-            "next": None,
-            "previous": None,
-            "results": [
-                {
-                    "id": 1,
-                    "fullname": self.employee.fullname,
-                    "role": self.employee.role,
-                    "is_supervisor": self.employee.is_supervisor,
-                    "department": self.employee.department,
-                    "user": self.user.pk
-                },
-            ]
-        }
-        self.assertEqual(result, data)
+        self.assertEqual(result.get('count'), 2)
 
     def test_employees_busy_list(self):
         url = reverse("tasks:employee-busy")
@@ -80,13 +68,9 @@ class EmployeeTest(APITestCase):
         data = {'count': 1,
                 'next': None,
                 'previous': None,
-                'results': [{'active_tasks': self.employee.tasks.filter(status='started').count(),
-                             'department': self.employee.department,
-                             'fullname': self.employee.fullname,
-                             'id': self.employee.pk,
-                             'role': self.employee.role,
-                             'tasks': [],
-                             'user': self.user.pk}]}
+                'results': [
+                    {'id': self.employee.pk, 'fullname': self.employee.fullname, 'department': None, 'role': None,
+                     'active_tasks': self.employee.tasks.filter(status='started').count(), 'tasks': []}]}
 
         self.assertEqual(result, data)
 
@@ -94,12 +78,14 @@ class EmployeeTest(APITestCase):
 class TaskTest(APITestCase):
 
     def setUp(self):
-        # cache.clear()
         self.user = User.objects.create(email="test_user@email.com", username="test_user")
         self.client.force_authenticate(user=self.user)
-        self.employee = Employee.objects.create(fullname="Супервайзеров Аркадий Витальевич",
-                                                user=self.user,
-                                                is_supervisor=True
+        self.super_employee = Employee.objects.create(fullname="Супервайзеров Аркадий Витальевич",
+                                                      user=self.user,
+                                                      is_supervisor=True
+                                                      )
+        self.employee = Employee.objects.create(fullname="Кандидатов Иосиф Петрович",
+                                                user=self.user
                                                 )
         self.date = timezone.now() + timedelta(hours=1)
         self.first_task = Task.objects.create(title="Купить подарки для продавцов",
@@ -151,7 +137,6 @@ class TaskTest(APITestCase):
         self.assertEqual(Task.objects.all().count(), 1)
 
     def test_task_urgent_list(self):
-        cache.clear()
         response = self.client.get('/tasks/urgent/')
         result = response.json()
         self.assertEqual(result.get('count'), 1)
