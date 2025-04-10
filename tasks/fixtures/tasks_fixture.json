@@ -1,0 +1,147 @@
+[
+  {
+    "model": "tasks.employee",
+    "pk": 1,
+    "fields": {
+      "fullname": "Директоров Дмитрий Денисович",
+      "role": "director",
+      "user": 2,
+      "is_supervisor": true,
+      "department": "finance"
+    }
+  },
+  {
+    "model": "tasks.employee",
+    "pk": 2,
+    "fields": {
+      "fullname": "Админов Артемий Алексеевич",
+      "role": "admin",
+      "user": 1,
+      "is_supervisor": false,
+      "department": "finance"
+    }
+  },
+  {
+    "model": "tasks.employee",
+    "pk": 3,
+    "fields": {
+      "fullname": "Менеджеров Максим Михайлович",
+      "role": "manager",
+      "user": 1,
+      "is_supervisor": false,
+      "department": "finance"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+      "title": "Сдать отчет за I квартал",
+      "description": null,
+      "parental_task": 6,
+      "executor": null,
+      "deadline": "2025-04-14T10:00:00Z",
+      "status": "created",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 2,
+    "fields": {
+      "title": "Отправить финальную презентацию",
+      "description": null,
+      "parental_task": null,
+      "executor": 3,
+      "deadline": "2025-04-12T12:30:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 3,
+    "fields": {
+      "title": "Организовать встречу с клиентом",
+      "description": null,
+      "parental_task": 2,
+      "executor": null,
+      "deadline": "2025-04-14T10:00:00Z",
+      "status": "created",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 4,
+    "fields": {
+      "title": "Пересмотреть план корпоратива",
+      "description": null,
+      "parental_task": null,
+      "executor": 3,
+      "deadline": "2025-04-13T13:00:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 5,
+    "fields": {
+      "title": "Заказать канц. товары для отдела",
+      "description": null,
+      "parental_task": null,
+      "executor": 2,
+      "deadline": "2025-04-12T15:30:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 6,
+    "fields": {
+      "title": "Подготовить статистику занятости",
+      "description": null,
+      "parental_task": null,
+      "executor": 2,
+      "deadline": "2025-04-13T10:00:00Z",
+      "status": "started",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 7,
+    "fields": {
+      "title": "Мит с аудиторами",
+      "description": null,
+      "parental_task": null,
+      "executor": 2,
+      "deadline": "2025-04-02T10:00:00Z",
+      "status": "completed",
+      "attachment": "",
+      "comment": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 8,
+    "fields": {
+      "title": "Составить отчет для инвесторов",
+      "description": null,
+      "parental_task": null,
+      "executor": 3,
+      "deadline": "2025-04-02T10:00:00Z",
+      "status": "completed",
+      "attachment": "",
+      "comment": null
+    }
+  }
+]

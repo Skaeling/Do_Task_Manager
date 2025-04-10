@@ -1,0 +1,33 @@
+services:
+  web:
+    build: .
+    container_name: tasks
+    command: bash -c "python manage.py migrate && python manage.py add_users_data && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+      - static_volume:/code/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: db
+    image: postgres:15.10
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $POSTGRES_USER" ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+networks:
+  default:
+
+volumes:
+  postgres_data:
+  static_volume:
