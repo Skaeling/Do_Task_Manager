@@ -12,6 +12,7 @@ omit =
     *urls.py
     *settings*
     *add_tasks_data.py
+    *add_users_data.py
 
 [report]
 omit =
@@ -26,6 +27,7 @@ omit =
     *urls.py
     *settings*
     *add_tasks_data.py
+    *add_users_data.py
 
 fail_under = 80
 show_missing = True

@@ -1,6 +1,5 @@
 from datetime import timedelta
 
-from django.core.cache import cache
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
@@ -88,12 +87,12 @@ class TaskTest(APITestCase):
                                                 user=self.user
                                                 )
         self.date = timezone.now() + timedelta(hours=1)
-        self.first_task = Task.objects.create(title="Купить подарки для продавцов",
+        self.first_task = Task.objects.create(title="test1",
                                               deadline=self.date,
                                               executor=self.employee,
                                               status="started"
                                               )
-        self.second_task = Task.objects.create(title="Забрать подарки для продавцов",
+        self.second_task = Task.objects.create(title="test2",
                                                deadline=self.date,
                                                parental_task=self.first_task
                                                )
@@ -137,6 +136,24 @@ class TaskTest(APITestCase):
         self.assertEqual(Task.objects.all().count(), 1)
 
     def test_task_urgent_list(self):
+        response = self.client.get('/tasks/urgent/')
+        result = response.json()
+        self.assertEqual(result.get('count'), 1)
+
+    def test_task_urgent_list_less_busy_employee(self):
+        self.third_employee = Employee.objects.create(fullname="Новичков Валентин Михайлович",
+                                                      user=self.user
+                                                      )
+        self.third_task = Task.objects.create(title="test3",
+                                              deadline=self.date,
+                                              executor=self.employee,
+                                              status="started"
+                                              )
+        self.another_task = Task.objects.create(title="test4",
+                                                deadline=self.date,
+                                                executor=self.employee,
+                                                status="started"
+                                                )
         response = self.client.get('/tasks/urgent/')
         result = response.json()
         self.assertEqual(result.get('count'), 1)
